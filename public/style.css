@@ -1,0 +1,23 @@
+body {
+    background-color: #9dc8e4;
+    background-color: #1e747c;
+}
+
+.blue-gradient {
+    /*background: linear-gradient(40deg, #45cafc, #303f9f) !important;*/
+    background: linear-gradient(40deg, #45cafc, #0b172a) !important;
+}
+
+.login-logo {
+    position: absolute;
+    top: -25%;
+    padding: 8px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.main-title {
+    font-family: 'Calibri';
+    font-weight: bold;
+    font-size: 300%;
+    color: floralwhite;
+}

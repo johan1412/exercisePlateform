@@ -1,0 +1,51 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        chain_provider:
+            chain:
+                providers: [app_student_provider, app_teacher_provider]
+        app_student_provider:
+            entity:
+                class: App\Entity\Student
+                property: email
+        app_teacher_provider:
+            entity:
+                class: App\Entity\Teacher
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            lazy: true
+            provider: chain_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginAuthenticator
+            logout:
+                path: logout
+                # where to redirect after logout
+                target: login
+            access_denied_handler: App\Security\AccessDeniedHandler
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/teacher, roles: [ROLE_TEACHER, ROLE_ADMIN] }
+        - { path: ^/student, roles: [ROLE_STUDENT, ROLE_ADMIN] }
+
+    role_hierarchy:
+        ROLE_STUDENT: ROLE_USER

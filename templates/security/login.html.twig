@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<div class="row mb-5 d-flex justify-content-center">
+    <div class="row text-center">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey }}</div>
+        {% endif %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    </div>
+    <div class="col-10 blue-gradient shadow-lg" style="margin-top:5%; color:white;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-8 offset-md-1 col-12 mt-5 mb-5">
+                    <form action="{{ path('login') }}" method="post">
+                        <div class="d-flex justify-content-center">
+                            <h4 class="login-logo">ETUDIANT</h4>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="email" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="mot de passe" required>
+                        </div>
+
+                        <input type="hidden" name="target_path" value="{{ path('student_homepage') }}"/>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        
+                        <div class="form-group mt-4 text-center">
+                            <button class="btn btn-light" type="submit">Connexion</button>
+                        </div>
+
+                        <p>Pas encore inscript ? <a href="{{ path('inscription', {'role': 'student'}) }}" style="color:white;text-decoration:underline">s'inscrire</a></p>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-8 offset-md-2 mt-5 mb-5">
+                    <form action="{{ path('login') }}" method="post">
+                        <div class="d-flex justify-content-center">
+                            <h4 class="login-logo">ENSEIGNANT</h4>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="email" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="mot de passe" required>
+                        </div>
+
+                        <input type="hidden" name="target_path" value="{{ path('teacher_homepage') }}"/>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        
+                        <div class="form-group mt-4 text-center">
+                            <button class="btn btn-light" type="submit">Connexion</button>
+                        </div>
+
+                        <p>Pas encore inscript ? <a href="{{ path('inscription', {'role': 'teacher'}) }}" style="color:white;text-decoration:underline">s'inscrire</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
