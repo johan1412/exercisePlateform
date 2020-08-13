@@ -2,22 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StudentRepository::class)
+ * @ORM\Entity
  */
 class Student extends User
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Cours::class, inversedBy="students")
@@ -28,11 +21,6 @@ class Student extends User
     {
         $this->cours = new ArrayCollection();
         $this->setRoles(["ROLE_STUDENT", "ROLE_USER"]);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

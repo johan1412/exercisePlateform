@@ -2,22 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TeacherRepository::class)
+ * @ORM\Entity
  */
 class Teacher extends User
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="teacher")
@@ -30,10 +23,6 @@ class Teacher extends User
         $this->setRoles(["ROLE_TEACHER", "ROLE_USER"]);
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     /**
      * @return Collection|Cours[]

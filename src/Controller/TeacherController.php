@@ -12,8 +12,10 @@ class TeacherController extends AbstractController
      */
     public function index()
     {
+        $cours = $this->getUser()->getCours();
         return $this->render('teacher/index.html.twig', [
-            'controller_name' => 'TeacherController',
+            'cours' => $cours,
         ]);
     }
+
 }

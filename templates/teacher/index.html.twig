@@ -1,10 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-    
-</style>
 
-
+    <div class="col-md-10 offset-md-1 d-flex align-items-center" style="border-top:2px solid white; margin-top:100px;">
+        <div class="pl-5 pr-5" style="position:absolute; background-color:#1e747c; margin-left:30px;">
+            <h1 class="display-4" style="display:inline;">Vos cours</h1>
+            <a href="{{ path('new_cours') }}" class="pl-5"><button class="btn btn-light mb-3"><i class="fa fa-plus"></i> nouveau cours</button></a>
+        </div>
+    </div>
+    <div class="col-md-10 offset-md-1 mt-5 pt-1 mb-5">
+        {% if cours is empty %}
+            <strong>Vous n'avez aucun cours pour le moment.</strong>
+        {% else %}
+            <div class="container mb-4">
+                {% for message in app.flashes('success') %}
+                    <div class="row">
+                        <div class="col-md-6 offset-3 col-10 alert alert-success mt-1 mb-1">{{ message }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="card-deck row px-5" style="color:black;">
+                {% for elt in cours %}
+                    <div class="col-lg-4 col-md-4 col-sm-12 px-0 py-2">
+                        <div class="card">
+                            <div class="card-body p-4 text-center">
+                                <h5 class="card-title">{{ elt.titre }}</h5>
+                                <p class="card-text mt-4 mb-4"> {{ elt.exercices | length }} exercice(s) disponible(s)</p>
+                                <a href="{{ path('show_cours', {'id': elt.id}) }}"><button class="btn btn-dark">accéder au cours</button></a>
+                            </div>
+                            <small class="card-footer text-muted">crée par {{ elt.teacher.lastname }} {{ elt.teacher.firstname }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}

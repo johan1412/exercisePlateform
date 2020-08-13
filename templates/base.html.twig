@@ -3,13 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4 col-10 pt-2 main-title">ExoPlateform</div>
-                <h3 class="col-md-4 col-10 pt-2 d-flex justify-content-center align-items-end text-light font-italic">{% if is_granted('ROLE_TEACHER') %}Espace enseignant{% endif %}</h3>
+                <h3 class="col-md-4 col-10 pt-2 d-flex justify-content-center align-items-end text-light font-italic">
+                    {% if is_granted('ROLE_TEACHER') %} Espace enseignant {% endif %}
+                    {% if is_granted('ROLE_STUDENT') %} Espace étudiant {% endif %}
+                </h3>
+                <div class="col-md-4 col-10 text-right pt-3 pr-5">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('logout') }}"><button class="btn btn-danger">Déconnexion</button></a>
+                    {% endif %}
+                </div>
             </div>
         </div>
         {% block body %}
