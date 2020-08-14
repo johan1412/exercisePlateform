@@ -7,6 +7,7 @@ use App\Form\CoursType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CoursController extends AbstractController
@@ -38,8 +39,13 @@ class CoursController extends AbstractController
     /**
      * @Route("teacher/cours/show/{id}", name="show_cours")
      */
-    public function show(Cours $cours)
+    public function show(Cours $cours, SessionInterface $session)
     {
-        
+        $exercices = $cours->getExercices();
+        $session->set('cours', $cours);
+        return $this->render('cours/show.html.twig', [
+            'exercices' => $exercices,
+            'cours' => $cours,
+        ]);
     }
 }

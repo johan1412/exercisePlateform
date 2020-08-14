@@ -30,6 +30,27 @@
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            <script>
+                $(document).ready(function() {
+                    var next = 2;
+                    $("#addInstruction").click(function() {
+                        var addto = "#instruction" + next;
+                        next += 1;
+                        var newInput = $('<div id="instruction' + next +'" class="row mb-2 ml-1"><input type="text" id="instruction_input'+ next + '" class="form-control col-8 mb-2" name="instruction'+ next + '">');
+                        var removeButton = $('<div id="remove' + next + '" class="btn btn-default remove-me ml-2 py-0" style="color:#bb4444; font-size:140%;"> <i class="fa fa-trash"></i></div>');
+                        $(addto).after(newInput);
+                        var addRemove = "#instruction_input" + next;
+                        $(addRemove).after(removeButton);
+                    });
+
+                    $('body').on('click','.remove-me',function() {
+                        var fieldNum = this.id.charAt(this.id.length-1);
+                        var fieldID = "#instruction" + fieldNum;
+                        $(this).remove();
+                        $(fieldID).remove();
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

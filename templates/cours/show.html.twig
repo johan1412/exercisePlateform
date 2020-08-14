@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="col-md-8 col-12 mt-5">
+        <div class="display-4 d-inline" style="font-size:220%;">{{ cours.titre }}</div>
+        <a href="{{ path('new_exercice') }}" class="pl-5 d-inline"><button class="btn btn-light mb-3"><i class="fa fa-plus"></i> nouvel exercice</button></a>
+        <hr style="background-color:white;">
+    </div>
+    <div>
+        {% for exercice in exercices %}
+            <div class="row bg-light">
+                <strong>{{ exercice.titre }}</strong><span>{{ exercice.description }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
