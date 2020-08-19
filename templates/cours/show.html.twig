@@ -7,10 +7,12 @@
         <a href="{{ path('new_exercice') }}" class="pl-5 d-inline"><button class="btn btn-light mb-3"><i class="fa fa-plus"></i> nouvel exercice</button></a>
         <hr style="background-color:white;">
     </div>
-    <div>
+    <div class="mt-5">
         {% for exercice in exercices %}
-            <div class="row bg-light">
-                <strong>{{ exercice.titre }}</strong><span>{{ exercice.description }}</span>
+            <div class="row bg-light p-3 my-4 d-flex justify-content-between" style="color:black;">
+                <strong style="font-size:110%;">{{ exercice.titre }}</strong>
+                <span style="font-size:100%;">{{ exercice.description }}</span>
+                <a href="{{ path('res_exercice', {'id': exercice.id}) }}"><button class="btn btn-dark">résultats</button></a>
             </div>
         {% endfor %}
     </div>

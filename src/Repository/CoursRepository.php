@@ -19,22 +19,20 @@ class CoursRepository extends ServiceEntityRepository
         parent::__construct($registry, Cours::class);
     }
 
-    // /**
-    //  * @return Cours[] Returns an array of Cours objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Cours[] Returns an array of Cours objects
+    */
+    public function findCoursNotRegistered($uid)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->innerJoin('c.students', 'u')
+            ->andWhere('u.id != :val')
+            ->setParameter('val', $uid)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Cours

@@ -32,23 +32,50 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
             <script>
                 $(document).ready(function() {
-                    var next = 2;
+                    var i = 3;
+                    var compt = 2;
+                    var current_instructions = 2;
+                    $("#compteur").val(2);
                     $("#addInstruction").click(function() {
-                        var addto = "#instruction" + next;
-                        next += 1;
-                        var newInput = $('<div id="instruction' + next +'" class="row mb-2 ml-1"><input type="text" id="instruction_input'+ next + '" class="form-control col-8 mb-2" name="instruction'+ next + '">');
-                        var removeButton = $('<div id="remove' + next + '" class="btn btn-default remove-me ml-2 py-0" style="color:#bb4444; font-size:140%;"> <i class="fa fa-trash"></i></div>');
-                        $(addto).after(newInput);
-                        var addRemove = "#instruction_input" + next;
-                        $(addRemove).after(removeButton);
+                        var ul = document.getElementById("instructions_list");
+                        var icon = document.createElement("i");
+                        icon.setAttribute('class', 'fa fa-trash');
+                        var removeButton = document.createElement("div");
+                        removeButton.setAttribute('id', 'remove' + i);
+                        removeButton.setAttribute('class', 'btn btn-default remove-me ml-2 py-0');
+                        removeButton.setAttribute('style', 'color:#bb4444; font-size:140%;');
+                        removeButton.append(icon);
+                        var input = document.createElement("input");
+                        input.setAttribute('type', 'text');
+                        input.setAttribute('class', 'form-control col-8');
+                        input.setAttribute('name', 'instruction' + i);
+                        var li = document.createElement("li");
+                        li.setAttribute('class', 'row my-3');
+                        li.setAttribute('id', 'li' + i);
+                        li.append(input);
+                        li.append(removeButton);
+                        ul.append(li);
+                        i = i + 1;
+                        compt = compt + 1;
+                        $("#compteur").val(compt);
+                        current_instructions = current_instructions + 1;
+                        if(current_instructions > 50) {
+                            $("#addInstruction").hide();
+                        }
                     });
 
                     $('body').on('click','.remove-me',function() {
+                        var ul = document.getElementById("instructions_list");
                         var fieldNum = this.id.charAt(this.id.length-1);
-                        var fieldID = "#instruction" + fieldNum;
+                        var fieldId = document.getElementById("li" + fieldNum);
                         $(this).remove();
-                        $(fieldID).remove();
+                        ul.removeChild(fieldId);
+                        current_instructions = current_instructions - 1;
+                        if(current_instructions <= 50) {
+                            $("#addInstruction").show();
+                        }
                     });
+
                 });
             </script>
         {% endblock %}
