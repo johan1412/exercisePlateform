@@ -22,7 +22,7 @@ class CoursRepository extends ServiceEntityRepository
     /**
      * @return Cours[] Returns an array of Cours objects
     */
-    public function findCoursNotRegistered($uid)
+    /*public function findCoursNotRegistered($uid)
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.students', 'u')
@@ -31,7 +31,7 @@ class CoursRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    }
+    }*/
     
 
     /*

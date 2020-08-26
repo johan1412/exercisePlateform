@@ -23,8 +23,9 @@
                     </div>
                     <div class="form-group">
                         <label>Les instructions</label>
+                        {% set i = 1 %}
                         <ul id="instructions_list" style="list-style:none;">
-                            <li class="row my-3"><input type="text" class="form-control col-8" name="instruction1" required></li>
+                            <li class="row my-3"><span>{{ i }}</span><input type="text" class="form-control col-8" name="instruction1" required></li>
                             <li class="row my-3"><input type="text" class="form-control col-8" name="instruction2" required></li>
                         </ul>
                         <div id="addInstruction" type="button" class="btn btn-secondary px-1 py-0"><i class="fa fa-plus fa-lg mr-2"></i>ajouter une ligne</div>

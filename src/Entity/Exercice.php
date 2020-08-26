@@ -42,6 +42,11 @@ class Exercice
      */
     private $cours;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $solution = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +96,18 @@ class Exercice
     public function setCours(?Cours $cours): self
     {
         $this->cours = $cours;
+
+        return $this;
+    }
+
+    public function getSolution(): ?array
+    {
+        return $this->solution;
+    }
+
+    public function setSolution(array $solution): self
+    {
+        $this->solution = $solution;
 
         return $this;
     }

@@ -13,9 +13,15 @@ class StudentController extends AbstractController
      */
     public function index(CoursRepository $repo)
     {
+        $user = $this->getUser();
         $coursInscrit = $this->getUser()->getCours();
-        $uid = $this->getUser()->getId();
-        $coursNonInscrit = $repo->findCoursNotRegistered($uid);
+        $allcours = $repo->findAll();
+        $coursNonInscrit = [];
+        foreach($allcours as $cours) {
+            if(!$cours->getStudents()->contains($user)) {
+                array_push($coursNonInscrit, $cours);
+            }
+        }
 
         return $this->render('student/index.html.twig', [
             'coursInscrit' => $coursInscrit,

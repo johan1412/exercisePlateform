@@ -6,6 +6,7 @@ use App\Entity\Cours;
 use App\Entity\Exercice;
 use App\Form\ExerciceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -62,11 +63,36 @@ class ExerciceController extends AbstractController
     /**
      * @Route("/teacher/exercice/resultats/{id}", name="res_exercice")
      */
-    public function showExercice(Exercice $exercice)
+    public function resExercice(Exercice $exercice)
     {
 
         return $this->render('exercice/res.html.twig', [
             'exercice' => $exercice,
         ]);
+    }
+
+
+    /**
+     * @Route("/student/exercice/show/{id}", name="show_exercice")
+     */
+    public function showExercice(Exercice $exercice)
+    {
+        return $this->render('exercice/show.html.twig', [
+            'exercice' => $exercice,
+        ]);
+    }
+
+
+    /**
+     * @Route("/student/exercice/{id}/verify", name="verify_exercice")
+     */
+    public function verifyResponse(Request $request, Exercice $exercice)
+    {
+        if($request->isXmlHttpRequest()) {
+            $res = $request->request->get('1');
+            return new JsonResponse([
+                'valid' => true
+            ]);
+        }
     }
 }

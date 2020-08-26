@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="col-md-10 col-12 mt-5">
+        <div class="display-4 d-inline" style="font-size:220%;">{{ exercice.titre }}</div>
+        <span class="ml-3">( cours de {{ exercice.cours.titre }} )</span>
+        <hr style="background-color:white;">
+    </div>
+    <div class="mt-5">
+        <strong>Instructions : </strong><p>{{ exercice.description }}</p>
+    </div>
+    <br>
+    <form id="formulaire" action="{{ path('verify_exercice', {'id': exercice.id}) }}" method="post">
+        <div class="row">
+            <table id="sortable" class="table table-hover table-light col-md-6 col-xs-10 offset-xs-1">
+                <tbody>
+                    {% for elt in exercice.instructions %}
+                        <tr>
+                            <td class="p-3"><i class="fas fa-arrows-alt-v mr-5"></i>{{ elt }}</td>
+                            <td><input type="hidden" name="{{ loop.index }}" value="{{ loop.index }}"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="alertSuccess col-md-3 offset-md-1">
+                <div class="alert alert-success">Bravo ! C'est la bonne solution</div>
+            </div>
+            <div class="alertFail col-md-3 offset-md-1">
+                <div class="alert alert-danger">Ce n'est pas la bonne solution, réessayez</div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-light">corriger</button>
+    </form>
+
+{% endblock %}

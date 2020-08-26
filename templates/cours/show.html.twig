@@ -12,7 +12,11 @@
             <div class="row bg-light p-3 my-4 d-flex justify-content-between" style="color:black;">
                 <strong style="font-size:110%;">{{ exercice.titre }}</strong>
                 <span style="font-size:100%;">{{ exercice.description }}</span>
-                <a href="{{ path('res_exercice', {'id': exercice.id}) }}"><button class="btn btn-dark">résultats</button></a>
+                {% if is_granted("ROLE_TEACHER") %}
+                    <a href="{{ path('res_exercice', {'id': exercice.id}) }}"><button class="btn btn-dark">résultats</button></a>
+                {% elseif is_granted("ROLE_STUDENT") %}
+                    <a href="{{ path('show_exercice', {'id': exercice.id}) }}"><button class="btn btn-dark">faire l'exercice</button></a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
