@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Cours;
 use App\Entity\Exercice;
+use App\Entity\Stats;
 use App\Form\ExerciceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class ExerciceController extends AbstractController
 {
@@ -77,22 +79,58 @@ class ExerciceController extends AbstractController
      */
     public function showExercice(Exercice $exercice)
     {
+        $instructions = $exercice->getInstructions();
+        shuffle($instructions);
         return $this->render('exercice/show.html.twig', [
             'exercice' => $exercice,
+            'instructions' => $instructions,
         ]);
     }
 
 
     /**
-     * @Route("/student/exercice/{id}/verify", name="verify_exercice")
+     * @Route("/student/exercice/{id}/verify", name="verify_exercice", methods={"POST"})
      */
     public function verifyResponse(Request $request, Exercice $exercice)
     {
-        if($request->isXmlHttpRequest()) {
-            $res = $request->request->get('1');
-            return new JsonResponse([
-                'valid' => true
-            ]);
-        }
+        
+            $solution = $exercice->getInstructions();
+            $res = [];
+            for($i = 1; $i <= count($solution); $i++) {
+                array_push($res, $request->request->get($i));
+            }
+            $stats = $this->getDoctrine()->getRepository(Stats::class)
+                    ->findOneBy([
+                        'student' => $this->getUser(),
+                        'exercice' => $exercice,
+                    ]);
+            if(!$stats) {
+                $stats = new Stats();
+                $stats->setStudent($this->getUser());
+                $stats->setExercice($exercice);
+                $stats->setTries(1);
+                $stats->setSuccess(false);
+            } else {
+                $stats->setTries($stats->getTries() + 1);
+            }
+
+            if($res == $solution) {
+                $stats->setSuccess(true);
+                $response = new JsonResponse([
+                    'valid' => true
+                ]);
+            } else {
+                $response = new JsonResponse([
+                    'valid' => false
+                ]);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($stats);
+            $em->flush();
+
+            return $response;
+
+        
     }
 }

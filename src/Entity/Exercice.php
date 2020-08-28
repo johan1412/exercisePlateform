@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExerciceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -42,10 +44,16 @@ class Exercice
      */
     private $cours;
 
+
     /**
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity=Stats::class, mappedBy="exercice", orphanRemoval=true)
      */
-    private $solution = [];
+    private $stats;
+
+    public function __construct()
+    {
+        $this->stats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -100,14 +108,34 @@ class Exercice
         return $this;
     }
 
-    public function getSolution(): ?array
+    
+    /**
+     * @return Collection|Stats[]
+     */
+    public function getStats(): Collection
     {
-        return $this->solution;
+        return $this->stats;
     }
 
-    public function setSolution(array $solution): self
+    public function addStat(Stats $stat): self
     {
-        $this->solution = $solution;
+        if (!$this->stats->contains($stat)) {
+            $this->stats[] = $stat;
+            $stat->setExercice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStat(Stats $stat): self
+    {
+        if ($this->stats->contains($stat)) {
+            $this->stats->removeElement($stat);
+            // set the owning side to null (unless already changed)
+            if ($stat->getExercice() === $this) {
+                $stat->setExercice(null);
+            }
+        }
 
         return $this;
     }

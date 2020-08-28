@@ -15,10 +15,10 @@
         <div class="row">
             <table id="sortable" class="table table-hover table-light col-md-6 col-xs-10 offset-xs-1">
                 <tbody>
-                    {% for elt in exercice.instructions %}
+                    {% for elt in instructions %}
                         <tr>
                             <td class="p-3"><i class="fas fa-arrows-alt-v mr-5"></i>{{ elt }}</td>
-                            <td><input type="hidden" name="{{ loop.index }}" value="{{ loop.index }}"></td>
+                            <td><input type="hidden" name="{{ loop.index }}" value="{{ elt }}"></td>
                         </tr>
                     {% endfor %}
                 </tbody>

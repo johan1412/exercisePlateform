@@ -85,13 +85,10 @@
                             $(this).width($originals.eq(index).width())
                         });
                         return $helper;
-                    },
-                    updateIndex = function(event, ui) {
-                        $('td.index', ui.item.parent()).each(function (i) {
-                            $(this).html(i+1);
-                        });
+                    };
+                    var updateIndex = function(event, ui) {
                         $('td > input[type=hidden]', ui.item.parent()).each(function (i) {
-                            $(this).val(i + 1);
+                            $(this).attr('name', i+1);
                         });
                     };
 
@@ -101,6 +98,7 @@
                     }).disableSelection();
 
                     $("tbody").sortable({
+                        cursor: 'move',
                         update: function() {}
                     });
 
